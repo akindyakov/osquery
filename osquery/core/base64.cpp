@@ -33,6 +33,15 @@ typedef bai::base64_from_binary<base64_enc> it_base64;
 } // namespace
 
 std::string decode(std::string encoded) {
+  auto exp = tryDecode(std::move(encoded));
+  if (exp.isError()) {
+    LOG(INFO) << exp.getError().getFullMessage();
+    return std::string{};
+  }
+  return exp.take();
+}
+
+Expected<std::string, Error> tryDecode(std::string encoded) {
   boost::erase_all(encoded, "\r\n");
   boost::erase_all(encoded, "\n");
   boost::trim_right_if(encoded, boost::is_any_of("="));
@@ -45,8 +54,10 @@ std::string decode(std::string encoded) {
     return std::string(base64_dec(encoded.data()),
                        base64_dec(encoded.data() + encoded.size()));
   } catch (const boost::archive::iterators::dataflow_exception& e) {
-    LOG(INFO) << "Could not base64 decode string: " << e.what();
-    return "";
+    return createError(
+        Error::InvalidEncoding,
+        "Could not base64 decode string: "
+    ) << e.what();
   }
 }
 

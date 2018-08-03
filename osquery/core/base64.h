@@ -12,9 +12,15 @@
 
 #include <string>
 
+#include <osquery/expected.h>
+
 namespace osquery {
 
 namespace base64 {
+
+enum class Error {
+  InvalidEncoding = 1,
+};
 
 /**
  * @brief Decode a base64 encoded string.
@@ -23,6 +29,13 @@ namespace base64 {
  * @return Decoded string.
  */
 std::string decode(std::string encoded);
+
+/**
+ * @brief Try to decode a base64 encoded string.
+ * @param encoded The base64 encoded string.
+ * @return Expected with decoded string or error in case of wrong encoding.
+ */
+Expected<std::string, Error> tryDecode(std::string encoded);
 
 /**
  * @brief Encode a  string.
