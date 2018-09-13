@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include <linux/bpf.h>
+#include <linux/version.h>
+
 #ifndef __NR_perf_event_open
 #if defined(__PPC__)
 #define __NR_perf_event_open 319
@@ -37,3 +40,11 @@
 #error __NR_bpf is undefined, probably this arch is not supported.
 #endif
 #endif
+
+namespace osquery {
+namespace ebpf {
+
+constexpr int kMinimalLinuxVersionCode = KERNEL_VERSION(4, 11, 0);
+
+} // namespace ebpf
+} // namespace osquery

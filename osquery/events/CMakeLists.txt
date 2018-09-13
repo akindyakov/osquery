@@ -47,6 +47,8 @@ else()
     "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/ebpf.h"
     "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/map.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/map.h"
+    "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/program.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/program.h"
     "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/system.h"
     "${CMAKE_CURRENT_LIST_DIR}/linux/inotify.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/linux/inotify.h"
@@ -85,6 +87,7 @@ elseif(LINUX)
     "${CMAKE_CURRENT_LIST_DIR}/linux/tests/process_file_events_tests.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/linux/tests/syslog_tests.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/tests/map_test.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/linux/ebpf/tests/program_test.cpp"
   )
 elseif(WINDOWS)
   ADD_OSQUERY_TEST_ADDITIONAL(
