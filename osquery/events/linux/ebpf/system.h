@@ -47,8 +47,6 @@ namespace ebpf {
 
 constexpr int kMinimalLinuxVersionCode = KERNEL_VERSION(4, 9, 0);
 
-bool isSupportedBySystem();
-
 namespace impl {
 
 struct KernelReleaseVersion {

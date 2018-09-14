@@ -67,11 +67,5 @@ KernelReleaseVersion getKernelReleaseVersion() {
 
 } // namespace impl
 
-bool isSupportedBySystem() {
-  auto const version = impl::getKernelReleaseVersion();
-  return kMinimalLinuxVersionCode <=
-         KERNEL_VERSION(version.major, version.minor, version.patches);
-}
-
 } // namespace ebpf
 } // namespace osquery
