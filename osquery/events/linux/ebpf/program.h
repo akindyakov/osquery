@@ -29,26 +29,13 @@ enum class ProgramError {
 
 class Program {
  public:
-  ~Program() {
-    if (fd_ >= 0) {
-      close(fd_);
-    }
-  }
+  ~Program();
 
   Program(Program const&) = delete;
-  Program(Program&& from) : fd_(from.fd_) {
-    from.fd_ = -1;
-  }
+  Program(Program&& from);
 
   Program& operator=(Program const&) = delete;
-  Program& operator=(Program&& from) {
-    if (fd_ >= 0) {
-      close(fd_);
-      fd_ = -1;
-    }
-    std::swap(fd_, from.fd_);
-    return *this;
-  }
+  Program& operator=(Program&& from);
 
   using Instructions = std::vector<union bpf_attr>;
 
@@ -57,7 +44,7 @@ class Program {
   }
 
   friend Expected<Program, ProgramError> loadProgram(
-      bpf_prog_type prog_type, const Instructions& ebpf_program);
+      enum bpf_prog_type prog_type, const Instructions& program);
 
  private:
   explicit Program(int const fd) : fd_(fd) {}
@@ -67,7 +54,7 @@ class Program {
 };
 
 Expected<Program, ProgramError> loadProgram(
-    bpf_prog_type prog_type, const Program::Instructions& ebpf_program);
+    enum bpf_prog_type prog_type, const Program::Instructions& program);
 
 } // namespace ebpf
 } // namespace osquery

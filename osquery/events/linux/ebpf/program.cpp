@@ -64,14 +64,33 @@ ProgramError kernelErrorCodeToProgramError(int kernel_error) {
 
 } // namespace
 
+Program::~Program() {
+  if (fd_ >= 0) {
+    close(fd_);
+  }
+}
+
+Program::Program(Program&& from) : fd_(from.fd_) {
+  from.fd_ = -1;
+}
+
+Program& Program::operator=(Program&& from) {
+  if (fd_ >= 0) {
+    close(fd_);
+    fd_ = -1;
+  }
+  std::swap(fd_, from.fd_);
+  return *this;
+}
+
 Expected<Program, ProgramError> loadProgram(
-    bpf_prog_type prog_type, const Program::Instructions& ebpf_program) {
+    enum bpf_prog_type prog_type, const Program::Instructions& program) {
   char const* license = "GPLv2";
   union bpf_attr attr;
   memset(&attr, 0, sizeof(union bpf_attr));
   attr.prog_type = prog_type;
-  attr.insns = reinterpret_cast<std::uint64_t>(ebpf_program.data());
-  attr.insn_cnt = static_cast<std::uint32_t>(ebpf_program.size());
+  attr.insns = reinterpret_cast<std::uint64_t>(program.data());
+  attr.insn_cnt = static_cast<std::uint32_t>(program.size());
   attr.license = reinterpret_cast<std::uint64_t>(license);
   attr.kern_version = kMinimalLinuxVersionCode;
 
