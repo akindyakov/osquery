@@ -1,3 +1,4 @@
+
 /**
  *  Copyright (c) 2014-present, Facebook, Inc.
  *  All rights reserved.
@@ -8,7 +9,21 @@
  *  You may select, at your option, one of the above-listed licenses.
  */
 
-#pragma once
-
-#include "osquery/events/linux/ebpf/map.h"
 #include "osquery/events/linux/ebpf/system.h"
+
+#include <osquery/tests/test_util.h>
+
+#include <gtest/gtest.h>
+
+namespace osquery {
+namespace {
+
+class EbpfSystemTests : public testing::Test {};
+
+TEST_F(EbpfSystemTests, getKernelReleaseVersion) {
+  auto const version = ebpf::impl::getKernelReleaseVersion();
+  EXPECT_GE(version.major, 2);
+}
+
+} // namespace
+} // namespace osquery

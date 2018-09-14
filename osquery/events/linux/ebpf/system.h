@@ -11,7 +11,7 @@
 #pragma once
 
 #include <linux/bpf.h>
-#include <linux/version.h>
+#include <linux/perf_event.h>
 
 #ifndef __NR_perf_event_open
 #if defined(__PPC__)
@@ -44,7 +44,19 @@
 namespace osquery {
 namespace ebpf {
 
-constexpr int kMinimalLinuxVersionCode = KERNEL_VERSION(4, 11, 0);
+bool isSupportedBySystem();
+
+namespace impl {
+
+struct KernelReleaseVersion {
+  int major = 0;
+  int minor = 0;
+  int patches = 0;
+};
+
+KernelReleaseVersion getKernelReleaseVersion();
+
+} // namespace impl
 
 } // namespace ebpf
 } // namespace osquery
