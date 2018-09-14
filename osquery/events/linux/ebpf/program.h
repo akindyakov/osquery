@@ -27,7 +27,7 @@ enum class ProgramError {
   PermissionDenied = 5,
 };
 
-class Program {
+class Program final {
  public:
   ~Program();
 

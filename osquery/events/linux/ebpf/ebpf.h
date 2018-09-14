@@ -11,6 +11,7 @@
 #pragma once
 
 #include "osquery/events/linux/ebpf/map.h"
+#include "osquery/events/linux/ebpf/program.h"
 
 namespace osquery {
 namespace ebpf {
